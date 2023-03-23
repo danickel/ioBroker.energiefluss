@@ -17,6 +17,9 @@ let unit_swap;
 let production;
 let production0;
 let production1;
+let solar_percent;
+let solar_percent0;
+let solar_percent1;
 let consumption;
 let grid_feed;
 let grid_consuming;
@@ -134,6 +137,9 @@ class Energiefluss extends utils.Adapter {
 		production = this.config.production;
 		production0 = this.config.production0;
 		production1 = this.config.production1;
+		solar_percent = this.config.solar_percent;
+		solar_percent0 = this.config.solar_percent0;
+		solar_percent1 = this.config.solar_percent1;
 		consumption = this.config.consumption;
 		consumption_reverse = this.config.consumption_reverse ? this.config.consumption_reverse : false;
 		grid_feed = this.config.grid_feed;
@@ -224,6 +230,9 @@ class Energiefluss extends utils.Adapter {
 			production: production,
 			production0: production0,
 			production1: production1,
+			solar_percent: solar_percent,
+			solar_percent0: solar_percent0,
+			solar_percent1: solar_percent1,
 			consumption: consumption,
 			grid_feed: grid_feed,
 			grid_consuming: grid_consuming,
@@ -650,6 +659,15 @@ class Energiefluss extends utils.Adapter {
 			if (id == production1) {
 				valuesObj['production1'] = kwCalc["production1"] === true ? this.kwValue(clearValue) : clearValue;
 			}
+			if (id == solar_percent) {
+				valuesObj['solar_percent'] = clearValue;
+			}
+			if (id == solar_percent0) {
+				valuesObj['solar_percent0'] = clearValue;
+			}
+			if (id == solar_percent1) {
+				valuesObj['solar_percent1'] = clearValue;
+			}
 			if (id == consumption) {
 				let consumption = kwCalc["consumption"] === true ? this.kwValue(clearValue) : clearValue;
 				if (consumption_reverse) {
@@ -778,7 +796,7 @@ class Energiefluss extends utils.Adapter {
 
 	async migrateConfig() {
 		const native = {};
-
+		
 		if (this.config?.car_charge) {
 			native.custom10 = this.config.car_charge;
 			native.car_charge = '';
@@ -967,6 +985,9 @@ class Energiefluss extends utils.Adapter {
 			production_value: false,
 			production0_value: false,
 			production1_value: false,
+			solar_percent: false,
+			solar_percent0: false,
+			solar_percent1: false,
 			grid_value: false,
 			custom0_percent: false,
 			custom10_percent: false,
@@ -1051,6 +1072,9 @@ class Energiefluss extends utils.Adapter {
 			textObj.production_text = true;
 			valueObj.production_value = true;
 			iconObj.production = true;
+			if (valuesObj['solar_percent'] != undefined) {
+				valueObj.solar_percent = true;
+			}
 		}
 
 		// Production - Additional
@@ -1059,6 +1083,9 @@ class Energiefluss extends utils.Adapter {
 			textObj.production0_text = true;
 			valueObj.production0_value = true;
 			iconObj.production0 = true;
+			if (valuesObj['solar_percent0'] != undefined) {
+				valueObj.solar_percent0 = true;
+			}
 		}
 
 		// Production - Additional
@@ -1067,6 +1094,9 @@ class Energiefluss extends utils.Adapter {
 			textObj.production1_text = true;
 			valueObj.production1_value = true;
 			iconObj.production1 = true;
+			if (valuesObj['solar_percent1'] != undefined) {
+				valueObj.solar_percent1 = true;
+			}
 		}
 
 		// Grid
@@ -1354,6 +1384,9 @@ class Energiefluss extends utils.Adapter {
 			production_value: this.config.color_production_text,
 			production0_value: this.config.color_production0_text,
 			production1_value: this.config.color_production1_text,
+			solar_percent: this.config.color_solar_percent,
+			solar_percent0: this.config.color_solar_percent0,
+			solar_percent1: this.config.color_solar_percent1,
 			battery_value: this.config.color_battery_text,
 			battery_remaining: this.config.color_battery_text,
 			battery_percent: this.config.color_battery_percent,
@@ -1433,6 +1466,9 @@ class Energiefluss extends utils.Adapter {
 				color.production_value = this.config.color_production_text_no_prod ? this.config.color_production_text_no_prod : this.config.color_production_text;
 				values.production_value = this.floorNumber(0);
 			}
+			if (valuesObj['solar_percent'] != undefined) {
+				values.solar_percent = valuesObj['solar_percent'];
+			}
 		}
 
 		// Production - Additional
@@ -1448,6 +1484,9 @@ class Energiefluss extends utils.Adapter {
 				color.production0_value = this.config.color_production0_text_no_prod ? this.config.color_production0_text_no_prod : this.config.color_production0_text;
 				values.production0_value = this.floorNumber(0);
 			}
+			if (valuesObj['solar_percent0'] != undefined) {
+				values.solar_percent0 = valuesObj['solar_percent0'];
+			}
 		}
 
 		// Production - Additional 1
@@ -1462,6 +1501,9 @@ class Energiefluss extends utils.Adapter {
 			} else {
 				color.production1_value = this.config.color_production1_text_no_prod ? this.config.color_production1_text_no_prod : this.config.color_production1_text;
 				values.production1_value = this.floorNumber(0);
+			}
+			if (valuesObj['solar_percent1'] != undefined) {
+				values.solar_percent1 = valuesObj['solar_percent1'];
 			}
 		}
 
